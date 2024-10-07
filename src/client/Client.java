@@ -91,12 +91,14 @@ public class Client {
                     } else if (message.startsWith("/groupmsg")) {
                         if (groupChatFrame != null) {
                             groupChatFrame.addGroupMessage(message.substring(10));
-                        } else {
-                            chatArea.append("You are not in a group chat.\n");
                         }
                     } else if (message.startsWith("/grouplist")) {
                         String[] members = message.substring(12).split(",");
                         updateGroupMembers(members); // Update group members
+                    } else if (message.startsWith("/members")) {
+                        String members = message.substring(8); // Cắt bỏ "/members "
+                        String[] memberArray = members.split(", ");
+                        updateGroupMembers(memberArray);
                     } else {
                         chatArea.append(message + "\n");
                     }
@@ -127,10 +129,10 @@ public class Client {
         });
 
         joinButton.addActionListener(e -> {
-            if (groupChatFrame != null) {
-                JOptionPane.showMessageDialog(frame, "You are already in a group chat.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
+//            if (groupChatFrame != null) {
+//                JOptionPane.showMessageDialog(frame, "You are already in a group chat.", "Error", JOptionPane.ERROR_MESSAGE);
+//                return;
+//            }
             String groupIP = JOptionPane.showInputDialog(frame, "Enter Group IP:");
             if (groupIP != null && !groupIP.trim().isEmpty()) {
                 out.println("/join " + groupIP); // Gửi yêu cầu tham gia nhóm tới máy chủ
@@ -140,14 +142,16 @@ public class Client {
         });
     }
     private void updateGroupMembers(String[] members) {
-        groupUserModel.clear(); // Clear the existing members
+        this.groupUserModel.clear(); // Xóa các thành viên hiện tại trước khi thêm thành viên mới
         for (String member : members) {
-            groupUserModel.addElement(member); // Add new members
+                this.groupUserModel.addElement(member); // Thêm từng thành viên từ danh sách mới
         }
+        // Cập nhật giao diện của groupChatFrame nếu nó tồn tại
         if (groupChatFrame != null) {
-            groupChatFrame.updateGroupMembers(groupUserModel); // Update the group chat frame
+            groupChatFrame.updateGroupMembers(this.groupUserModel); // Giả định rằng groupChatFrame có phương thức này
         }
     }
+
     public static void main(String[] args) throws Exception {
         new Client();
     }

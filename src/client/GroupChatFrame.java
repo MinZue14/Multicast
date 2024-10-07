@@ -54,36 +54,23 @@ public class GroupChatFrame {
             }
         });
 
-//        // Thêm nút Leave Group
-//        leaveButton = new JButton("Leave Group");
-//        leaveButton.addActionListener(e -> {
-//            groupChatFrame.dispose(); // Đóng cửa sổ nhóm
-//        });
-
         leaveButton.addActionListener(e -> {
             if (groupChatFrame != null) {
                 out.println("/leave");
                 groupChatFrame.dispose();
-            }
-            else {
-               out.println("You are not in any group chat.");
+                groupChatFrame = null;
             }
         });
     }
 
     public void updateGroupMembers(DefaultListModel<String> groupUserModel) {
-        // Đảm bảo rằng model bên ngoài được cập nhật trước khi thực hiện cập nhật giao diện
-        if (groupUserModel == null || groupUserModel.getSize() == 0) {
-            this.groupUserModel.clear(); // Nếu không có thành viên, xóa model hiện tại
-        } else {
-            this.groupUserModel.clear(); // Xóa các thành viên hiện tại trước khi thêm thành viên mới
-            for (int i = 0; i < groupUserModel.getSize(); i++) {
-                this.groupUserModel.addElement(groupUserModel.getElementAt(i)); // Thêm từng thành viên từ model mới
-            }
-        }
+        this.groupUserModel.clear(); // Xóa các thành viên hiện tại trước khi thêm thành viên mới
+        for (int i = 0; i < groupUserModel.getSize(); i++) {
+            this.groupUserModel.addElement(groupUserModel.getElementAt(i)); // Thêm từng thành viên từ model mới
 
-        // Cập nhật số lượng thành viên
-        groupMembersCountLabel.setText("Total members: " + this.groupUserModel.getSize());
+            // Cập nhật số lượng thành viên
+            groupMembersCountLabel.setText("Total members: " + this.groupUserModel.getSize());
+        }
     }
 
 

@@ -21,7 +21,6 @@ public class Server {
             e.printStackTrace();
         }
     }
-
     private static class ClientHandler extends Thread {
         private Socket socket;
         private PrintWriter out;
@@ -124,11 +123,11 @@ public class Server {
                 userGroups.remove(groupName);
                 broadcastGroupMessage(groupName, username + " has left the group.");
                 sendMemberListToGroup(groupName);
-//
-//                // Nếu nhóm không còn thành viên, xóa nhóm
-//                if (groupSet.isEmpty()) {
-//                    groupUsers.remove(groupName);
-//                }
+
+                // Nếu nhóm không còn thành viên, xóa nhóm
+                if (groupSet.isEmpty()) {
+                    groupUsers.remove(groupName);
+                }
             }
         }
 
@@ -141,12 +140,13 @@ public class Server {
         private void sendMemberListToGroup(String groupName) {
             Set<PrintWriter> groupSet = groupUsers.get(groupName);
             if (groupSet != null) {
-                StringBuilder memberList = new StringBuilder("/grouplist ");
+                StringBuilder memberList = new StringBuilder();
                 for (PrintWriter writer : groupSet) {
-                    memberList.append(getUsernameByWriter(writer)).append(",");
+                    memberList.append(getUsernameByWriter(writer)).append(", "); // Hàm này cần phải được định nghĩa để lấy tên người dùng
                 }
+                String members = memberList.toString();
                 for (PrintWriter writer : groupSet) {
-                    writer.println(memberList.toString());
+                    writer.println("/members " + members); // Gửi danh sách thành viên cho tất cả
                 }
             }
         }
