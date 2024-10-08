@@ -126,7 +126,7 @@ public class Client {
                     currentChatUser = userInfo[0]; // Lấy tên người dùng
                     String currentChatUserIP = userIPs.get(currentChatUser); // Lấy IP từ HashMap
 
-                    chattingWithLabel.setText("Chatting with: " + currentChatUser + " (" + currentChatUserIP + ")");
+                    chattingWithLabel.setText("Chatting with: " + currentChatUser);
                 }
             }
         });
