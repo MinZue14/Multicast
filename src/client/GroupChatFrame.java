@@ -12,13 +12,13 @@ public class GroupChatFrame {
     private JLabel groupMembersCountLabel;
     private JList<String> groupUserList;
 
-    public GroupChatFrame(DefaultListModel<String> groupUserModel, String groupIP, PrintWriter out) {
+    public GroupChatFrame(DefaultListModel<String> groupUserModel, String groupIP, String username, PrintWriter out) {
         this.groupUserModel = groupUserModel;
-        openGroupChatWindow(groupIP, out);
+        openGroupChatWindow(groupIP, username, out);
     }
 
-    private void openGroupChatWindow(String groupIP, PrintWriter out) {
-        groupChatFrame = new JFrame("Group Chat - " + groupIP);
+    private void openGroupChatWindow(String groupIP, String username, PrintWriter out) {
+        groupChatFrame = new JFrame("Group Chat - " + username + " (" + groupIP + ")");
         groupChatArea = new JTextArea(20, 40);
         groupChatArea.setEditable(false);
         groupChatFrame.add(new JScrollPane(groupChatArea), BorderLayout.CENTER);

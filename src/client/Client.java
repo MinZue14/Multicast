@@ -83,15 +83,9 @@ public class Client {
                     if (message.startsWith("/userlist")) {
                         String[] users = message.substring(10).split(",");
                         userModel.clear();
-                        userIPs.clear();
                         for (String user : users) {
                             if (!user.equals(username)) {
-                                String[] userInfo = user.split(" \\(");
-                                String userName = userInfo[0];
-                                String userIp = userInfo[1].substring(0, userInfo[1].length() - 1); // Bỏ dấu ")"
-
-                                userModel.addElement(userName + " (" + userIp + ")");
-                                userIPs.put(userName, userIp); // Lưu tên và IP vào HashMap
+                                userModel.addElement(user);
                             }
                         }
                     } else if (message.startsWith("/groupmsg")) {
@@ -145,7 +139,7 @@ public class Client {
             String groupIP = JOptionPane.showInputDialog(frame, "Enter Group IP:");
             if (groupIP != null && !groupIP.trim().isEmpty()) {
                 out.println("/join " + groupIP); // Gửi yêu cầu tham gia nhóm tới máy chủ
-                groupChatFrame = new GroupChatFrame(groupUserModel, groupIP, out);
+                groupChatFrame = new GroupChatFrame(groupUserModel, username, groupIP, out);
                 groupChatFrame.addGroupMessage("Joined group at IP: " + groupIP + "\n");
             }
         });
@@ -157,7 +151,7 @@ public class Client {
         }
         // Cập nhật giao diện của groupChatFrame nếu nó tồn tại
         if (groupChatFrame != null) {
-            groupChatFrame.updateGroupMembers(this.groupUserModel); // Giả định rằng groupChatFrame có phương thức này
+            groupChatFrame.updateGroupMembers(this.groupUserModel);
         }
     }
 

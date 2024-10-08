@@ -76,8 +76,8 @@ public class Server {
         private void broadcastUserList() {
             StringBuilder userList = new StringBuilder("/userlist ");
             for (String user : userMap.keySet()) {
-                String userIp = userIPs.get(user); // Lấy địa chỉ IP của user
-                userList.append(user).append(" - (").append(userIp).append("),");
+                String userIP = userIPs.get(user);  // Lấy địa chỉ IP của người dùng
+                userList.append(user).append(" (").append(userIP).append("),");
             }
             for (PrintWriter writer : clientWriters) {
                 writer.println(userList.toString());
