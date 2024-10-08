@@ -83,9 +83,15 @@ public class Client {
                     if (message.startsWith("/userlist")) {
                         String[] users = message.substring(10).split(",");
                         userModel.clear();
+                        userIPs.clear();
                         for (String user : users) {
                             if (!user.equals(username)) {
-                                userModel.addElement(user);
+                                String[] userInfo = user.split(" \\(");
+                                String userName = userInfo[0];
+                                String userIp = userInfo[1].substring(0, userInfo[1].length() - 1); // Bỏ dấu ")"
+
+                                userModel.addElement(userName + " (" + userIp + ")");
+                                userIPs.put(userName, userIp); // Lưu tên và IP vào HashMap
                             }
                         }
                     } else if (message.startsWith("/groupmsg")) {
@@ -119,12 +125,15 @@ public class Client {
 
         userList.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
-                currentChatUser = userList.getSelectedValue();
-//                if (!userIPs.containsKey(currentChatUser)) {
-//                    String ip = JOptionPane.showInputDialog(frame, "Enter IP of " + currentChatUser + ":");
-//                    userIPs.put(currentChatUser, ip);
-//                }
-                chattingWithLabel.setText("Chatting with: " + currentChatUser);
+                String selectedUserInfo = userList.getSelectedValue();
+                if (selectedUserInfo != null) {
+                    // Tách tên người dùng và IP từ chuỗi đã chọn
+                    String[] userInfo = selectedUserInfo.split(" \\(");
+                    currentChatUser = userInfo[0]; // Lấy tên người dùng
+                    String currentChatUserIP = userIPs.get(currentChatUser); // Lấy IP từ HashMap
+
+                    chattingWithLabel.setText("Chatting with: " + currentChatUser + " (" + currentChatUserIP + ")");
+                }
             }
         });
 
