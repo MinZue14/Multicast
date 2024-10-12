@@ -120,15 +120,10 @@ public class Server {
         private void leaveGroup(String groupName) {
             Set<PrintWriter> groupSet = groupUsers.get(groupName);
             if (groupSet != null) {
-                groupSet.remove(out);
-                userGroups.remove(groupName);
+                groupSet.remove(out);  // Loại bỏ người dùng khỏi nhóm
+                userGroups.remove(groupName);  // Loại bỏ nhóm khỏi danh sách của người dùng
                 broadcastGroupMessage(groupName, username + " has left the group.");
                 sendMemberListToGroup(groupName);
-
-                // Nếu nhóm không còn thành viên, xóa nhóm
-                if (groupSet.isEmpty()) {
-                    groupUsers.remove(groupName);
-                }
             }
         }
 

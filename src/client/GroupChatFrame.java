@@ -55,11 +55,9 @@ public class GroupChatFrame {
         });
 
         leaveButton.addActionListener(e -> {
-            if (groupChatFrame != null) {
-                out.println("/leave");
-                groupChatFrame.dispose();
-                groupChatFrame = null;
-            }
+            out.println("/leave");
+            addGroupMessage("You have left the group.");
+            groupUserModel.clear();
         });
     }
 

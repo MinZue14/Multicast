@@ -99,6 +99,11 @@ public class Client {
                         String members = message.substring(8); // Cắt bỏ "/members "
                         String[] memberArray = members.split(", ");
                         updateGroupMembers(memberArray);
+                    } else if (message.startsWith("/leave")) {
+                        // Cập nhật giao diện nếu người dùng đã rời nhóm
+                        if (groupChatFrame != null) {
+                            groupChatFrame.updateGroupMembers(new DefaultListModel<>()); // Cập nhật danh sách thành viên nhóm
+                        }
                     } else {
                         chatArea.append(message + "\n");
                     }
@@ -126,7 +131,7 @@ public class Client {
                     currentChatUser = userInfo[0]; // Lấy tên người dùng
                     String currentChatUserIP = userIPs.get(currentChatUser); // Lấy IP từ HashMap
 
-                    chattingWithLabel.setText("Chatting with: " + currentChatUser + " (" + currentChatUserIP + ")");
+                    chattingWithLabel.setText("Chatting with: " + currentChatUser);
                 }
             }
         });
