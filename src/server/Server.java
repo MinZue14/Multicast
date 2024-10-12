@@ -95,11 +95,13 @@ public class Server {
         }
 
         private void sendGroupMessage(String message) {
+            String senderIP = userIPs.get(username);  // Lấy địa chỉ IP của người gửi
+
             for (String group : userGroups) {
                 Set<PrintWriter> groupSet = groupUsers.get(group);
                 if (groupSet != null) {
                     for (PrintWriter writer : groupSet) {
-                        writer.println("/groupmsg " + username + ": " + message);
+                        writer.println("/groupmsg " + username + " (" + senderIP + "): " + message);  // Kèm IP trong tin nhắn nhóm
                     }
                 }
             }
@@ -158,9 +160,11 @@ public class Server {
 
         private void broadcastGroupMessage(String groupName, String message) {
             Set<PrintWriter> groupSet = groupUsers.get(groupName);
+            String senderIP = userIPs.get(username);  // Lấy địa chỉ IP của người gửi
+
             if (groupSet != null) {
                 for (PrintWriter writer : groupSet) {
-                    writer.println("/groupmsg " + message);
+                    writer.println("/groupmsg " + username + " (" + senderIP + "): " + message);  // Kèm IP trong tin nhắn
                 }
             }
         }
